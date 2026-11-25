@@ -12,3 +12,4 @@ sys.path.append(str(root))
 from DC1 import DC1
 from DFN import DFN
 import PARAMS
+import ERRORS

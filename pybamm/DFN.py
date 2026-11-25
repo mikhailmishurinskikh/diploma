@@ -194,16 +194,16 @@ class DFN(pybamm.BaseModel):
 
         # Variables for save
         self.variables = {
-            "c_e": c_e,
-            "phi_e": phi_e,
-            "phi_s_anode": phi_s_anode,
-            "phi_s_cathode": phi_s_cathode,
-            "c_s_anode": c_s_anode,
-            "c_s_cathode": c_s_cathode,
-            "c_s_anode_int": pybamm.r_average(c_s_anode),
-            "c_s_cathode_int": pybamm.r_average(c_s_cathode),
-            "c_s_surf_anode": c_s_surf_anode,
-            "c_s_surf_cathode": c_s_surf_cathode,
+            # "c_e": c_e,
+            # "phi_e": phi_e,
+            # "phi_s_anode": phi_s_anode,
+            # "phi_s_cathode": phi_s_cathode,
+            # "c_s_anode": c_s_anode,
+            # "c_s_cathode": c_s_cathode,
+            # "c_s_anode_int": pybamm.r_average(c_s_anode),
+            # "c_s_cathode_int": pybamm.r_average(c_s_cathode),
+            # "c_s_surf_anode": c_s_surf_anode,
+            # "c_s_surf_cathode": c_s_surf_cathode,
             "voltage": voltage
         }
 
