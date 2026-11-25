@@ -1,5 +1,6 @@
 def Metropolis(names, step):
     from imports import PARAMS, DFN, np, pybamm
+    from datetime import datetime
     
     data = np.loadtxt("data1C.data")
     
@@ -81,6 +82,7 @@ def Metropolis(names, step):
         f"a1 = {a1}, a2 = {a2}, accept_th = {accept_th}\n"
         f"theta0 = {theta0}\n"
         f"accepted percentage = {n_acc / n_steps * 100:.2f}%"
+        f"time = {datetime.now().strftime("%H:%M:%S")}"
     )
     
     
