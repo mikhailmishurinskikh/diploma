@@ -85,11 +85,11 @@ if __name__ == "__main__":
     os.makedirs("data_metropolis", exist_ok=True)
 
     args = [
-        (("Fk_cathode", "D_s_cathode"), np.array([1, 1])),
-        (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
-        (("Fk_cathode", "Fk_anode"), np.array([1, 1])),
-        (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
-        (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
+    #    (("Fk_cathode", "D_s_cathode"), np.array([1, 1])),
+   #     (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
+  #      (("Fk_cathode", "Fk_anode"), np.array([1, 1])),
+ #       (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
+#        (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
         (("Fk_anode", "D_s_cathode"), np.array([0.5, 1])),
     ]
     
