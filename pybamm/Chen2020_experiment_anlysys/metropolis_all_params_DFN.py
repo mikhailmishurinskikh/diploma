@@ -37,9 +37,9 @@ def Metropolis(names, step, chain_i):
             sol = model.run(inputs=run_inputs, t_eval=t_eval)
         
         except Exception as e:
-            return np.sqrt(np.mean(ERRORS.penalty()**2)) * 100
+            return ERRORS.penalty()
         
-        return np.sqrt(np.mean(ERRORS.calc_errors(data, np.column_stack([sol.t, sol["voltage"].entries]))**2)) * 100
+        return ERRORS.calc_errors(data, np.column_stack([sol.t, sol["voltage"].entries]))
 
 
     theta = np.log10([inputs[k] for k in names])
@@ -55,7 +55,7 @@ def Metropolis(names, step, chain_i):
         prop = theta + step * rng.standard_normal(len(names))
         out = evaluate(prop)
 
-        if out < accept_th:
+        if out[3] < accept_th:
             theta, state = prop, out
             n_acc += 1
 
@@ -67,8 +67,8 @@ def Metropolis(names, step, chain_i):
     chain = np.array(chain)
     history = np.array(history)
 
-    np.savetxt(f"data_metropolis/chain{chain_i}.data", np.column_stack((chain, history, history < accept_th)),
-        header=f"log10 {names[0]}, log10 {names[1]}, log10 {names[2]}, log10 {names[3]}, mean error, accepted\n"
+    np.savetxt(f"data_metropolis/chain{chain_i}.data", np.column_stack((chain, history, history[:, 3] < accept_th)),
+        header=f"log10 {names[0]}, log10 {names[1]}, log10 {names[2]}, log10 {names[3]}, voltage error, time error, start error,  full error, accepted\n"
         "model : DFN\n"
         f"accept_th = {accept_th}%\n"
         f"theta0 = {theta0}\n"

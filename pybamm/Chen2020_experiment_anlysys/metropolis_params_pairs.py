@@ -37,9 +37,9 @@ def Metropolis(names, step):
             sol = model.run(inputs=run_inputs, t_eval=t_eval)
         
         except Exception as e:
-            return np.sqrt(np.mean(ERRORS.penalty()**2)) * 100
-        
-        return np.sqrt(np.mean(ERRORS.calc_errors(data, np.column_stack([sol.t, sol["voltage"].entries]))**2)) * 100
+            return ERRORS.penalty()
+
+        return ERRORS.calc_errors(data, np.column_stack([sol.t, sol["voltage"].entries]))
 
 
     theta = np.log10([inputs[k] for k in names])
@@ -55,7 +55,7 @@ def Metropolis(names, step):
         prop = theta + step * rng.standard_normal(len(names))
         out = evaluate(prop)
 
-        if out < accept_th:
+        if out[3] < accept_th:
             theta, state = prop, out
             n_acc += 1
 
@@ -67,8 +67,8 @@ def Metropolis(names, step):
     chain = np.array(chain)
     history = np.array(history)
 
-    np.savetxt(f"data_metropolis/{names[0]}-{names[1]}.data", np.column_stack((chain, history, history < accept_th)),
-        header=f"log10 {names[0]}, log10 {names[1]}, mean error, accepted\n"
+    np.savetxt(f"data_metropolis/{names[0]}-{names[1]}.data", np.column_stack((chain, history, history[:, 3] < accept_th)),
+        header=f"log10 {names[0]}, log10 {names[1]}, voltage error, time error, start error, full error, accepted\n"
         "model : DFN\n"
         f"accept_th = {accept_th}%\n"
         f"theta0 = {theta0}\n"
@@ -85,11 +85,11 @@ if __name__ == "__main__":
     os.makedirs("data_metropolis", exist_ok=True)
 
     args = [
-    #    (("Fk_cathode", "D_s_cathode"), np.array([1, 1])),
-   #     (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
-  #      (("Fk_cathode", "Fk_anode"), np.array([1, 1])),
- #       (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
-#        (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
+        (("Fk_cathode", "D_s_cathode"), np.array([1, 1])),
+        (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
+        (("Fk_cathode", "Fk_anode"), np.array([1, 1])),
+        (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
+        (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
         (("Fk_anode", "D_s_cathode"), np.array([0.5, 1])),
     ]
     

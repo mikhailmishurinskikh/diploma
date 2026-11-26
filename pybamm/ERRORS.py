@@ -4,7 +4,7 @@ def calc_errors(data_exp, data_sim, w_voltage=1, w_time=1, w_start=1):
     """
     data is np.column_stack([t, voltage])
     
-    voltage error, time error, start error
+    voltage error, time error, start error, full error, %
     """
     
     t_exp = data_exp[:, 0][-1]
@@ -18,9 +18,11 @@ def calc_errors(data_exp, data_sim, w_voltage=1, w_time=1, w_start=1):
     )**2) / t_rmse.shape[0]) / np.mean(data_exp[:, 1])
     
     start_error = (data_exp[:,1][0] - data_sim[:,1][0]) / data_exp[:,1][0]
+
+    err = np.array([voltage_error * w_voltage * 100, time_error * w_time * 100, start_error * w_start * 100])
     
-    return np.array([voltage_error * w_voltage, time_error * w_time, start_error * w_start])
+    return np.append(err, np.sqrt(np.sum(err**2)))
 
 
 def penalty():
-    return np.full(3, 1.0)
+    return np.append(np.full(3, 100.0), np.sqrt(3) * 100)
