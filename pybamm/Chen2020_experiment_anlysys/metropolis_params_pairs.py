@@ -62,7 +62,7 @@ def Metropolis(names, step):
         chain.append(prop.copy())
         history.append(out)
         
-        print(f"{names[0]}-{names[1]} Step {i} of {n_steps}, accepted percentage: {n_acc / (i + 2) * 100:.2f}%")
+        print(f"{names[0]}-{names[1]} Step {i} of {n_steps}, theta = {theta}, accepted percentage: {n_acc / (i + 2) * 100:.2f}%")
         
     chain = np.array(chain)
     history = np.array(history)
@@ -85,12 +85,12 @@ if __name__ == "__main__":
     os.makedirs("data_metropolis", exist_ok=True)
 
     args = [
-        (("Fk_cathode", "D_s_cathode"), np.array([1, 1])),
-        (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
+        (("Fk_cathode", "D_s_cathode"), np.array([1, 0.5])),
+        # (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
         (("Fk_cathode", "Fk_anode"), np.array([1, 1])),
-        (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
-        (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
-        (("Fk_anode", "D_s_cathode"), np.array([0.5, 1])),
+        # (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
+        # (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
+        # (("Fk_anode", "D_s_cathode"), np.array([0.5, 1])),
     ]
     
     n_proc = min(len(args), os.cpu_count())
