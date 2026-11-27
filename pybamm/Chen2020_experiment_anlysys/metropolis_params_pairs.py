@@ -51,8 +51,15 @@ def Metropolis(names, step):
     history = [state]
     n_acc = 1
 
+    lower = np.array([ERRORS.BOUNDS[k][0] for k in names])
+    upper = np.array([ERRORS.BOUNDS[k][1] for k in names])
+
     for i in range(n_steps):
-        prop = theta + step * rng.standard_normal(len(names))
+        while True:
+            prop = theta + step * rng.standard_normal(len(names))
+            if np.all((prop >= lower) & (prop <= upper)):
+                break
+        
         out = evaluate(prop)
 
         if out[3] < accept_th:
@@ -86,11 +93,11 @@ if __name__ == "__main__":
 
     args = [
         (("Fk_cathode", "D_s_cathode"), np.array([1, 0.5])),
-        # (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
+        (("Fk_anode", "D_s_anode"), np.array([0.5, 0.5])),
         (("Fk_cathode", "Fk_anode"), np.array([1, 1])),
-        # (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
-        # (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
-        # (("Fk_anode", "D_s_cathode"), np.array([0.5, 1])),
+        (("D_s_cathode", "D_s_anode"), np.array([0.5, 0.5])),
+        (("Fk_cathode", "D_s_anode"), np.array([1, 0.5])),
+        (("Fk_anode", "D_s_cathode"), np.array([0.5, 1])),
     ]
     
     n_proc = min(len(args), os.cpu_count())

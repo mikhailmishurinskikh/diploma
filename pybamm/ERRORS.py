@@ -26,3 +26,11 @@ def calc_errors(data_exp, data_sim, w_voltage=1, w_time=1, w_start=1):
 
 def penalty():
     return np.append(np.full(3, 100.0), np.sqrt(3) * 100)
+
+
+BOUNDS = {
+    "Fk_anode":    (-9, -2),
+    "Fk_cathode":  (-9, -2),
+    "D_s_anode":   (-17, -9),
+    "D_s_cathode": (-17, -9),
+}

@@ -51,8 +51,14 @@ def Metropolis(names, step, chain_i):
     history = [state]
     n_acc = 1
 
+    lower = np.array([ERRORS.BOUNDS[k][0] for k in names])
+    upper = np.array([ERRORS.BOUNDS[k][1] for k in names])
+
     for i in range(n_steps):
-        prop = theta + step * rng.standard_normal(len(names))
+        while True:
+            prop = theta + step * rng.standard_normal(len(names))
+            if np.all((prop >= lower) & (prop <= upper)):
+                break
         out = evaluate(prop)
 
         if out[3] < accept_th:
